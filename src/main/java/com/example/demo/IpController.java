@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 class IpController {
 
     @GetMapping("/client-info")
-    public ResponseEntity<String> getClientInfo(HttpServletRequest request) {
+    public ResponseEntity<ApiResponceDTO> getClientInfo(HttpServletRequest request) {
         String clientIp = request.getHeader("X-Forwarded-For");
         if (clientIp == null || clientIp.isEmpty()) {
             // If no X-Forwarded-For header, fall back to getRemoteAddr()
@@ -19,6 +19,6 @@ class IpController {
         }
         // Get the client port
         int clientPort = request.getRemotePort();
-        return ResponseEntity.ok(String.format("Client IP: %s, Client Port: %d", clientIp, clientPort));
+        return ResponseEntity.ok(new ApiResponceDTO(clientIp,clientPort));
     }
 }
